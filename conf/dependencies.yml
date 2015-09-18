@@ -1,0 +1,12 @@
+# Application dependencies
+
+require:
+    - play
+    - hypercore -> hypercore latest.integration
+
+repositories:
+    - local:
+        type: local
+        artifact: ${application.path}/../hypercore/hypercore
+        contains:
+            - hypercore
