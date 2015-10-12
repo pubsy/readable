@@ -3,9 +3,19 @@
 # ~~~~
 
 # Home page
-GET     /                                       Root.root
-GET     /books                                  Root.books
-GET     /books/page/{page}/size/{size}          Root.books
+GET     /                                       RootController.root
+
+GET     /books                                  BooksController.books
+GET     /books/page/{page}/size/{size}          BooksController.books
+GET     /books/{id}                             BooksController.book
+POST    /books/{id}/mark                        BooksController.mark
+POST    /books                                  BooksController.createBook
+
+GET     /users                                  UsersController.users
+GET     /users/page/{page}/size/{size}          UsersController.users
+GET     /users/{id}                             UsersController.user
+POST    /register                               UsersController.createUser
+GET    	/login                                  RootController.login
 
 # Hypercore routes
 *       /                                       module:hypercore
