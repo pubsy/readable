@@ -14,6 +14,6 @@ public class RootController extends BasicController {
 
     @Secured
     public static void login(){
-    	renderText("You are successfully authenticated.");
+    	render(new RootResource(SecurityController.getAuthenticatedUser()));
     }
 }

@@ -38,7 +38,7 @@ public class BooksListResource extends PagedListResource<BookResource> {
 		super(items, BASE_URL, totalElements, size, page);
 		
 		if(SecurityController.isAuthenticated()){
-			this.searchBook = "/books-search/";
+			this.searchBook = "/books-search";
 		}
 	}
 

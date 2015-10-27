@@ -29,6 +29,7 @@ public class UsersController extends BasicController {
 		User user  = new User(name).save();
 		response.status = 201;
 		response.setHeader("Location", "/users/" + user.id);
+		render(getUser(user.id));
 	}
 	
 	/*

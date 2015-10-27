@@ -10,10 +10,10 @@
 
   <div ng-repeat="action in data.actions">
       <h3>{{ action.name }}</h3>
-      <form ng-submit="loadResourceWithQuery(action.href, action.fields)">
+      <form name="{{ action.name }}" ng-submit="loadResource(action.href, action.method, action.name)">
         <div ng-repeat="field in action.fields">
           <label for="{{ field.name }}">{{ field.name }}</label>
-          <input type="text" name="{{ field.name }}" ng-model="field.name">
+          <input type="text" name="{{ field.name }}">
         </div>
         <input type="submit" value="Submit">
       </form>

@@ -6,6 +6,7 @@ angular.module('myApp', [
   'myApp.root',
   'myApp.books',
   'myApp.book',
+  'myApp.user',
   'myApp.users',
   'myApp.navigation',
   'myApp.version',
@@ -13,13 +14,32 @@ angular.module('myApp', [
   'hrSiren'
 ])
 
-.directive('parentDirective', function(Resource, $compile){
+.directive('parentDirective', function($http, $compile){
   return {
     restrict: 'E',
     controller: function ($scope, $element, $attrs) {
 
-      $scope.loadResource = function(url){
-        Resource.loadData(url).then(function(response){
+      $scope.loadResource = function(url, method, formName){
+        if(typeof method == "undefined") {method = 'GET';}
+        var data = {};
+        if(typeof formName !== "undefined") {
+          //data = $('[name="'+ formName +'"]').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
+          if(method == 'GET'){
+            url += '?' + $('[name="'+ formName +'"]').serialize();
+          } else {
+            data = $('[name="'+ formName +'"]').serialize();
+          }
+        }
+
+        $http({
+          method: method,
+          url: url,
+          data: data,
+          headers: {
+            'Accept': 'application/vnd.siren+json',
+            'Content-Type' : 'application/x-www-form-urlencoded'
+          }
+        }).then(function successCallback(response) {
           var htm = '';
           $scope.data = response.data;
 
@@ -33,29 +53,20 @@ angular.module('myApp', [
             case "UsersListResource":
               htm = '<users-directive></users-directive>';
               break;
+            case "UserResource":
+              htm = '<user-directive></user-directive>';
+              break;
             default:
               console.log("Sorry, we are out of .");
           }
           var compiled = $compile(htm)($scope);
           $element.html(compiled);
-        });
-      };
-
-      $scope.loadResourceWithQuery = function(url, fields){
-        $scope.loadResource(url + '?' + fields[0].name + '=' + $scope[fields[0].name]);
+          }, function errorCallback(response) {
+            alert('Error: ' + response);
+          });
       };
 
       $scope.loadResource('/');
     }
   }
-})
-
-.factory('Resource', function($http){
-  var Resource = {};
-
-  Resource.loadData = function(url){
-    return $http.get(url, {headers: { 'Accept': 'application/vnd.siren+json' }});
-  }
-
-  return Resource;
 });
