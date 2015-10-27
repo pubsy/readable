@@ -16,10 +16,16 @@ public class BookResource extends BasicResource {
 	public String markAsPlanningToRead;
 
 	public String title;
+	public String authorName;
+	public String thumbnailUrl;
+	public int readersCount;
 
 	public BookResource(Book book) {
 		super("/books/" + book.id);
 		this.title = book.title;
+		this.authorName = book.authorName;
+		this.readersCount = book.readers.size();
+		this.thumbnailUrl = book.thumbnailUrl;
 
 		if(!SecurityController.isAuthenticated()){
 			return;
@@ -34,7 +40,10 @@ public class BookResource extends BasicResource {
 
 	private boolean bookNotMarked(Book book, UserBookConnection.ConnectionType type) {
 		User user = SecurityController.getAuthenticatedUser();
-		return UserBookConnection.find("byBookAndUserAndType", book, user, type).first() == null;
+		if(book.getId() != null){
+			return UserBookConnection.find("byBookAndUserAndType", book, user, type).first() == null;
+		}
+		return true;
 	}
 
 	public String toString() {

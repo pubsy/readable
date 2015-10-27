@@ -1,0 +1,21 @@
+<div>
+  <div class="masthead">
+    <ul class="nav nav-pills pull-right">
+      <li ng-repeat="link in data.links">
+          <a href ng-click="loadResource(link.href)">{{ link.rel[0] }}</a>
+      </li>
+    </ul>
+    <h3 class="muted">Readable</h3>
+  </div>
+
+  <div ng-repeat="action in data.actions">
+      <h3>{{ action.name }}</h3>
+      <form ng-submit="loadResourceWithQuery(action.href, action.fields)">
+        <div ng-repeat="field in action.fields">
+          <label for="{{ field.name }}">{{ field.name }}</label>
+          <input type="text" name="{{ field.name }}" ng-model="field.name">
+        </div>
+        <input type="submit" value="Submit">
+      </form>
+  </div>
+</div>

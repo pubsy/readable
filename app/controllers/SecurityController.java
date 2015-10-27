@@ -17,7 +17,7 @@ public class SecurityController extends Controller {
 	public static void checkAuthentication(){
 		Secured secured = getActionAnnotation(Secured.class);
 		if (secured != null) {
-			if(getAuthUserName() == null){
+			if(!isAuthenticated()){
 				unauthorized();
 			}
 		}
@@ -25,15 +25,12 @@ public class SecurityController extends Controller {
 
 	@Util
 	public static User getAuthenticatedUser() {
-		if(!isAuthenticated()){
-			return null;
-		}
 		return User.findByUserName(getAuthUserName());
 	}
 
 	@Util
 	public static boolean isAuthenticated() {
-		return getAuthUserName() != null;
+		return getAuthenticatedUser() != null;
 	}
 
 	private static String getAuthUserName() {

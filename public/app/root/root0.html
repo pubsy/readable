@@ -1,0 +1,30 @@
+<div>
+  <div ng-show="root">
+    <div class="masthead">
+      <ul class="nav nav-pills pull-right">
+        <li ng-repeat="link in root.links">
+            <a href ng-click="loadResource(link.href)">{{ link.rel[0] }}</a>
+        </li>
+      </ul>
+      <h3 class="muted">Readable</h3>
+    </div>
+
+    <div>
+      root
+    </div>
+  </div>
+  <div ng-show="books">
+    <div class="masthead">
+      <ul class="nav nav-pills pull-right">
+        <li ng-repeat="link in books.links">
+            <a href ng-click="loadResource(link.href)">{{ link.rel[0] }}</a>
+        </li>
+      </ul>
+      <h3 class="muted">Readable</h3>
+    </div>
+
+    <div>
+      BOOKS
+    </div>
+  </div>
+</div>

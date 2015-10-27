@@ -3,13 +3,16 @@
 # ~~~~
 
 # Home page
+GET      /app/                                  staticDir:/public/app
+GET      /app                                   staticFile:/public/app/index.html
+
 GET     /                                       RootController.root
 
 GET     /books                                  BooksController.books
 GET     /books/page/{page}/size/{size}          BooksController.books
 GET     /books/{id}                             BooksController.book
 POST    /books/{id}/mark                        BooksController.mark
-POST    /books                                  BooksController.createBook
+GET     /books-search                           BooksController.searchBook
 
 GET     /users                                  UsersController.users
 GET     /users/page/{page}/size/{size}          UsersController.users

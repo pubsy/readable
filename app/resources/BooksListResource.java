@@ -1,5 +1,6 @@
 package resources;
 
+import hypermedia.annotations.Link;
 import hypermedia.annotations.Operation;
 import hypermedia.annotations.Parameter;
 import hypermedia.core.PagedListResource;
@@ -13,16 +14,31 @@ import controllers.SecurityController;
 
 public class BooksListResource extends PagedListResource<BookResource> {
 	
+	@Operation(rel = "register", method = "POST", params = { @Parameter(name = "name"), @Parameter(name = "password") })
+	public String register;
+
+	@Link(rel = "books")
+	public String books = "/books";
+
+	@Link(rel = "users")
+	public String users = "/users";
+	
+	@Link(rel = "my-profile")
+	public String myProfile;
+	
+	@Link(rel = "login")
+	public String login;
+	
 	private static final String BASE_URL = "/books";
 	
-	@Operation(rel = "add-book", method = "POST", params = { @Parameter(name = "title") })
-	public String addBook;
+	@Operation(rel = "search-book", method = "GET", params = { @Parameter(name = "query")})
+	public String searchBook;
 	
 	public BooksListResource(List<BookResource> items, Long totalElements, Integer size, Integer page) {
 		super(items, BASE_URL, totalElements, size, page);
 		
 		if(SecurityController.isAuthenticated()){
-			this.addBook = BASE_URL;
+			this.searchBook = "/books-search/";
 		}
 	}
 
