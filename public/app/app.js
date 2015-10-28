@@ -19,6 +19,17 @@ angular.module('myApp', [
     restrict: 'E',
     controller: function ($scope, $element, $attrs) {
 
+      $scope.getHrefByRel = function(links, rel){
+        for(var link of links){
+          for(var currRel of link.rel){
+            if(currRel == rel){
+              return link.href;
+            }
+          }
+        }
+        return '';
+      }
+
       $scope.loadResource = function(url, method, formName){
         if(typeof method == "undefined") {method = 'GET';}
         var data = {};
@@ -50,6 +61,9 @@ angular.module('myApp', [
             case "BooksListResource":
               htm = '<books-directive></books-directive>';
               break;
+            case "BookResource":
+              htm = '<book-directive></book-directive>';
+              break;
             case "UsersListResource":
               htm = '<users-directive></users-directive>';
               break;
@@ -66,7 +80,7 @@ angular.module('myApp', [
           });
       };
 
-      $scope.loadResource('/');
+      $scope.loadResource('/books');
     }
   }
 });

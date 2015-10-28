@@ -1,12 +1,12 @@
 package resources;
 
+import models.User;
 import hypermedia.annotations.Link;
 import hypermedia.annotations.Operation;
 import hypermedia.annotations.Parameter;
-import hypermedia.core.Resource;
-import models.User;
+import hypermedia.core.BasicResource;
 
-public class RootResource implements Resource {
+public final class NavigationResource extends BasicResource {
 
 	@Operation(rel = "register", method = "POST", params = { @Parameter(name = "name"), @Parameter(name = "password") })
 	public String register;
@@ -22,8 +22,9 @@ public class RootResource implements Resource {
 	
 	@Link(rel = "login")
 	public String login;
-
-	public RootResource(User authenticatedUser){
+	
+	public NavigationResource(String self, User authenticatedUser) {
+		super(self);
 		if(authenticatedUser == null) {
 			login = "/login";
 			register = "/register";
@@ -31,4 +32,5 @@ public class RootResource implements Resource {
 			myProfile = "/users/" + authenticatedUser.id;
 		}
 	}
+
 }

@@ -5,12 +5,14 @@ import hypermedia.core.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.mvc.With;
 import models.User;
 import resources.BooksListResource;
 import resources.UserResource;
 import resources.UsersListResource;
 import controllers.hypercore.BasicController;
 
+@With(SecurityController.class)
 public class UsersController extends BasicController {
 
 	/*
@@ -37,7 +39,8 @@ public class UsersController extends BasicController {
 	 */
 	
 	private static Resource getUser(long id) {
-		return new UserResource((User)User.findById(id));
+		User user = (User)User.findById(id);
+		return new UserResource(user);
 	}
 	
 	private static List<UserResource> getUsers(Integer page, Integer size) {

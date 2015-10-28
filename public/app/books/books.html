@@ -2,7 +2,14 @@
   <navigation></navigation>
   <div class="books-items">
     <div ng-repeat="book in data.properties.items" class="book">
-      <book></book>
+      <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
+        <div class="cover" style="background-image:url('{{ book.properties.thumbnailUrl }}')"></div>
+        <div class="body">
+          <span class="author">{{ book.properties.authorName }}</span>
+          <span class="title">{{ book.properties.title }}</span>
+          <span class="count">{{ book.properties.readersCount }}</span>
+        </div>
+      </a>
     </div>
   </div>
 </div>

@@ -6,19 +6,21 @@
 GET      /app/                                  staticDir:/public/app
 GET      /app                                   staticFile:/public/app/index.html
 
-GET     /                                       RootController.root
+GET     /                                       NavigationController.navigate
 
 GET     /books                                  BooksController.books
 GET     /books/page/{page}/size/{size}          BooksController.books
-GET     /books/{id}                             BooksController.book
-POST    /books/{id}/mark                        BooksController.mark
-GET     /books-search                           BooksController.searchBook
+GET     /books/{externalId}                     BooksController.book
+POST    /books/{externalId}/mark                BooksController.mark
+GET     /books-search                           BooksController.searchBooks
+GET     /book-search/{externalBookId}           BooksController.searchBook
 
 GET     /users                                  UsersController.users
 GET     /users/page/{page}/size/{size}          UsersController.users
 GET     /users/{id}                             UsersController.user
 POST    /register                               UsersController.createUser
-GET    	/login                                  RootController.login
+
+GET    	/login                                  SecurityController.login
 
 # Hypercore routes
 *       /                                       module:hypercore

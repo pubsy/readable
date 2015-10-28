@@ -2,7 +2,7 @@
 
 angular.module('myApp.book', [])
 
-.directive('book', function(){
+.directive('bookDirective', function(){
   return {
     restrict: 'E',
     templateUrl: 'app/book/book.html'

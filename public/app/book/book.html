@@ -1,8 +1,16 @@
-<a href="{{ book.links.self }}">
-  <div class="cover" style="background-image:url('{{ book.properties.thumbnailUrl }}')"></div>
-  <div class="body">
-    <span class="author">{{ book.properties.authorName }}</span>
-    <span class="title">{{ book.properties.title }}</span>
-    <span class="count">{{ book.properties.readersCount }}</span>
-  </div>
-</a>
+<div>
+  <navigation></navigation>
+  <div class="books-items">
+    <div class="book">
+      <a href ng-click="loadResource(getHrefByRel(data.links, 'self'))">
+        <div class="cover" style="background-image:url('{{ data.properties.thumbnailUrl }}')"></div>
+        <div class="body">
+          <span class="author">{{ data.properties.authorName }}</span>
+          <span class="title">{{ data.properties.title }}</span>
+          <span class="count">{{ data.properties.readersCount }}</span>
+        </div>
+      </a>
+    </div>
+</div>
+</div>
+</div>

@@ -16,7 +16,7 @@ public class UserResource extends BasicResource{
 	public List<UserBookResource> planningToReadBooks;
 
 	public UserResource(User user) {
-		super("/users/" + user.id);
+		super("/users/" + user.getId());
 		this.username = user.username;
 		this.readBooks = convertToResource(user.readBooks);
 		this.planningToReadBooks = convertToResource(user.planningToReadBooks);

@@ -23,6 +23,11 @@ public class SecurityController extends Controller {
 		}
 	}
 
+    @Secured
+    public static void login(){
+    	renderText("Success");
+    }
+	
 	@Util
 	public static User getAuthenticatedUser() {
 		return User.findByUserName(getAuthUserName());

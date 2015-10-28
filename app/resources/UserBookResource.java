@@ -1,5 +1,6 @@
 package resources;
 
+import controllers.SecurityController;
 import models.Book;
 import hypermedia.core.BasicResource;
 

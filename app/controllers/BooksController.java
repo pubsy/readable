@@ -31,26 +31,30 @@ public class BooksController extends BasicController {
 	 * Controller methods
 	 */
 
+	private static final String GOOGLE_BOOK = "https://www.googleapis.com/books/v1/volumes/";
+
 	public static void books(Integer page, Integer size) {
 		render(new BooksListResource(getBooksList(page, size), getTotalBooksCount(), size, page));
 	}
 
-	public static void book(Long id) {
-		render(new BookResource(getBookById(id)));
+	public static void book(String externalId) {
+		render(new BookResource(getBookByExternalId(externalId)));
+	}
+	
+	public static void searchBooks(String query) {
+		List<BookResource> books = getBooks(query);
+		render(new BooksListResource(books, (long)books.size(), books.size(), 0));
 	}
 
 	@Secured
-	public static void searchBook(String query) {
-		List<Book> books = getBooks(query);
-		List<BookResource> resourcesList = transformToBookResourcesList(books);
-		render(new BooksListResource(resourcesList, (long)resourcesList.size(), resourcesList.size(), 0));
-	}
-
-	@Secured
-	public static void mark(Long id, UserBookConnection.ConnectionType type) {
+	public static void mark(String externalId, UserBookConnection.ConnectionType type) {
 		User user = SecurityController.getAuthenticatedUser();
-		Book book = getBookById(id);
-
+		Book book = getBookByExternalId(externalId);
+		
+		if(!book.isPersistent()) {
+			book.save();
+		}
+		
 		removeExistingUserBookConnectionIfExists(type, user, book);
 		saveNewUserBookConnection(type, user, book);
 
@@ -80,63 +84,80 @@ public class BooksController extends BasicController {
 		return Book.count();
 	}
 
-	private static Book getBookById(Long id) {
-		return Book.findById(id);
+	private static Book getBookByExternalId(String externalId) {
+		Book book = Book.find("byExternalId", externalId).first();
+		if(book == null){
+			JsonElement jsonElement = getExternalResource(GOOGLE_BOOK + externalId);
+			book = parseBook(jsonElement);
+		}
+		return book;
 	}
-
+	
 	private static List<BookResource> getBooksList(Integer page, Integer size) {
 		size = (size == null) ? 3 : size;
 		page = (page == null) ? 0 : page;
 
 		List<Book> books = Book.find("order by insertedAt asc").fetch(page + 1, size);
 
-		List<BookResource> resources = transformToBookResourcesList(books);
-
-		return resources;
-	}
-
-	private static List<BookResource> transformToBookResourcesList(List<Book> books) {
 		List<BookResource> resources = new ArrayList<BookResource>();
 		for (Book book : books) {
 			resources.add(new BookResource(book));
 		}
+
 		return resources;
 	}
-
-	private static List<Book> getBooks(String query) {
-		F.Promise<WS.HttpResponse> f = WS.url("https://www.googleapis.com/books/v1/volumes?q=" 
-				+ query.replaceAll("\\s", "+")).getAsync();
-		Promise<HttpResponse> promise = F.Promise.waitAny(f);
+	
+	private static List<BookResource> getBooks(String query) {
+		JsonElement jsonElement = getExternalResource("https://www.googleapis.com/books/v1/volumes?q=" 
+				+ query.replaceAll("\\s", "+"));
 		
-		List<Book> list = new ArrayList<Book>();
-		
-		try {
-			String title = "";
-			String authorName = "";
-			String thumbnailUrl = "https://books.google.de/googlebooks/images/no_cover_thumb.gif";
-			
-			Iterator<JsonElement> iterator = promise.get().getJson().getAsJsonObject().getAsJsonArray("items").iterator();
-			while(iterator.hasNext()){
-				JsonElement next = iterator.next();
-				JsonObject volumeInfo = next.getAsJsonObject().getAsJsonObject("volumeInfo").getAsJsonObject();
-				
-				title = volumeInfo.getAsJsonPrimitive("title").getAsString();
-				JsonArray authorsArray = volumeInfo.getAsJsonArray("authors");
-				if(authorsArray != null){
-					authorName = volumeInfo.getAsJsonArray("authors").get(0).getAsString();
-				}
-				JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
-				if(imageLinks != null){
-					thumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("smallThumbnail").getAsString();
-				}
-				list.add(new Book(title, authorName, thumbnailUrl));
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
+		List<BookResource> list = new ArrayList<BookResource>();
+		Iterator<JsonElement> iterator = jsonElement.getAsJsonObject().getAsJsonArray("items").iterator();
+		while(iterator.hasNext()){
+			list.add(parseBookResource(iterator.next()));
 		}
 
 		return list;
+	}
+
+	private static JsonElement getExternalResource(String externalUrl) {
+		F.Promise<WS.HttpResponse> f = WS.url(externalUrl).getAsync();
+		Promise<HttpResponse> promise = F.Promise.waitAny(f);
+							
+		HttpResponse httpResponse = null;
+		try {
+			httpResponse = promise.get();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return httpResponse.getJson();
+	}
+
+	private static BookResource parseBookResource(JsonElement element) {
+		Book book = parseBook(element);
+		
+		return new BookResource(book);
+	}
+
+	private static Book parseBook(JsonElement element) {
+		String title = "";
+		String authorName = "";
+		String thumbnailUrl = "https://books.google.de/googlebooks/images/no_cover_thumb.gif";
+		
+		JsonObject volumeInfo = element.getAsJsonObject().getAsJsonObject("volumeInfo").getAsJsonObject();
+		
+		title = volumeInfo.getAsJsonPrimitive("title").getAsString();
+		JsonArray authorsArray = volumeInfo.getAsJsonArray("authors");
+		if(authorsArray != null){
+			authorName = volumeInfo.getAsJsonArray("authors").get(0).getAsString();
+		}
+		JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
+		if(imageLinks != null){
+			thumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("smallThumbnail").getAsString();
+		}
+		
+		String externalBookId = element.getAsJsonObject().getAsJsonPrimitive("id").getAsString();
+		
+		return new Book(externalBookId, title, authorName, thumbnailUrl);
 	}
 }

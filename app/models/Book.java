@@ -19,6 +19,9 @@ import play.db.jpa.Model;
 public class Book extends BasicModel {
 
 	@Column(nullable = false)
+	public String externalId;
+	
+	@Column(nullable = false)
 	public String title;
 	
 	@Column(nullable = false)
@@ -30,7 +33,8 @@ public class Book extends BasicModel {
 	@OneToMany(mappedBy = "book", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	public List<UserBookConnection> readers = new ArrayList<UserBookConnection>();
 
-	public Book(String name, String authorName, String thumbnailUrl){
+	public Book(String exteranlId, String name, String authorName, String thumbnailUrl){
+		this.externalId = exteranlId;
 		this.title = name;
 		this.authorName = authorName;
 		this.thumbnailUrl = thumbnailUrl;

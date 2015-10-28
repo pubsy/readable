@@ -19,9 +19,9 @@ public class BookResource extends BasicResource {
 	public String authorName;
 	public String thumbnailUrl;
 	public int readersCount;
-
+	
 	public BookResource(Book book) {
-		super("/books/" + book.id);
+		super("/books/" + book.externalId);
 		this.title = book.title;
 		this.authorName = book.authorName;
 		this.readersCount = book.readers.size();
@@ -31,11 +31,12 @@ public class BookResource extends BasicResource {
 			return;
 		}
 		if (bookNotMarked(book, UserBookConnection.ConnectionType.READ)) {
-			markAsRead = "/books/" + book.id + "/mark?type=READ";
+			markAsRead = "/books/" + book.externalId + "/mark?type=READ";
 		}
 		if (bookNotMarked(book, UserBookConnection.ConnectionType.PLANNING_TO_READ)) {
-			markAsPlanningToRead = "/books/" + book.id + "/mark?type=PLANNING_TO_READ";
+			markAsPlanningToRead = "/books/" + book.externalId + "/mark?type=PLANNING_TO_READ";
 		}
+		
 	}
 
 	private boolean bookNotMarked(Book book, UserBookConnection.ConnectionType type) {
