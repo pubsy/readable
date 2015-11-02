@@ -7,12 +7,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Where;
-
-import play.db.jpa.Model;
 
 @Entity
 @Table(name = "books")
@@ -27,6 +24,7 @@ public class Book extends BasicModel {
 	@Column(nullable = false)
 	public String authorName;
 	
+	@Lob
 	@Column(nullable = false)
 	public String thumbnailUrl;
 	

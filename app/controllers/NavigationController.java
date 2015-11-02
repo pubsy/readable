@@ -8,6 +8,6 @@ import controllers.hypercore.BasicController;
 public class NavigationController extends BasicController {
 
 	public static void navigate(){
-		render(new NavigationResource("/", SecurityController.getAuthenticatedUser()));
+		render(new NavigationResource(SecurityController.getAuthenticatedUser()));
 	}
 }

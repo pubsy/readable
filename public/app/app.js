@@ -3,7 +3,6 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'myApp.root',
   'myApp.books',
   'myApp.book',
   'myApp.user',
@@ -19,22 +18,29 @@ angular.module('myApp', [
     restrict: 'E',
     controller: function ($scope, $element, $attrs) {
 
-      $scope.getHrefByRel = function(links, rel){
-        for(var link of links){
-          for(var currRel of link.rel){
-            if(currRel == rel){
-              return link.href;
-            }
+      $scope.navigation = {};
+      $scope.data = {};
+
+      $scope.loadNavigation = function(successCallback){
+        $http({
+          method: 'GET',
+          url: '/',
+          headers: {
+            'Accept': 'application/vnd.siren+json',
+            'Content-Type' : 'application/x-www-form-urlencoded'
           }
-        }
-        return '';
+        }).then(function(response) {
+          $scope.navigation = response.data;
+          successCallback();
+        }, function errorCallback(response) {
+          alert('Error: ' + response);
+        });
       }
 
       $scope.loadResource = function(url, method, formName){
         if(typeof method == "undefined") {method = 'GET';}
         var data = {};
         if(typeof formName !== "undefined") {
-          //data = $('[name="'+ formName +'"]').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
           if(method == 'GET'){
             url += '?' + $('[name="'+ formName +'"]').serialize();
           } else {
@@ -50,13 +56,12 @@ angular.module('myApp', [
             'Accept': 'application/vnd.siren+json',
             'Content-Type' : 'application/x-www-form-urlencoded'
           }
-        }).then(function successCallback(response) {
+        }).then(function(response) {
           var htm = '';
           $scope.data = response.data;
 
           switch (response.data.class) {
-            case "RootResource":
-              htm = '<root-directive></root-directive>';
+            case "NavigationResource":
               break;
             case "BooksListResource":
               htm = '<books-directive></books-directive>';
@@ -80,7 +85,20 @@ angular.module('myApp', [
           });
       };
 
-      $scope.loadResource('/books');
+      $scope.getHrefByRel = function(links, rel){
+        for(var link of links){
+          for(var currRel of link.rel){
+            if(currRel == rel){
+              return link.href;
+            }
+          }
+        }
+        return '';
+      }
+
+      $scope.loadNavigation(function(){
+          $scope.loadResource($scope.getHrefByRel($scope.navigation.links, 'Books'));
+      });
     }
   }
 });

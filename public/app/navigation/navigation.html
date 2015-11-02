@@ -1,14 +1,13 @@
 <div>
   <div class="masthead">
     <ul class="nav nav-pills pull-right">
-      <li ng-repeat="link in data.links">
+      <li ng-repeat="link in navigation.links">
           <a href ng-click="loadResource(link.href)">{{ link.rel[0] }}</a>
       </li>
     </ul>
     <h3 class="muted">Readable</h3>
   </div>
-
-  <div ng-repeat="action in data.actions">
+  <div ng-repeat="action in navigation.actions">
       <h3>{{ action.name }}</h3>
       <form name="{{ action.name }}" ng-submit="loadResource(action.href, action.method, action.name)">
         <div ng-repeat="field in action.fields">

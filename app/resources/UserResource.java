@@ -12,8 +12,8 @@ public class UserResource extends BasicResource{
 
 	public String username;
 	
-	public List<UserBookResource> readBooks;
-	public List<UserBookResource> planningToReadBooks;
+	public List<BookResource> readBooks;
+	public List<BookResource> planningToReadBooks;
 
 	public UserResource(User user) {
 		super("/users/" + user.getId());
@@ -22,14 +22,14 @@ public class UserResource extends BasicResource{
 		this.planningToReadBooks = convertToResource(user.planningToReadBooks);
 	}
 	
-	private List<UserBookResource> convertToResource(List<UserBookConnection> readBooks) {
+	private List<BookResource> convertToResource(List<UserBookConnection> readBooks) {
 		if(readBooks.isEmpty()){
 			return null;
 		}
 		
-		List<UserBookResource> list = new ArrayList<UserBookResource>(); 
+		List<BookResource> list = new ArrayList<BookResource>(); 
 		for(UserBookConnection conn: readBooks){
-			list.add(new UserBookResource(conn.book));
+			list.add(new BookResource(conn.book));
 		}
 		return list;
 	}

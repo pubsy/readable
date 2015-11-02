@@ -1,5 +1,4 @@
 <div>
-  <navigation></navigation>
   <div class="books-items">
     <div ng-repeat="book in data.properties.items" class="book">
       <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
@@ -11,5 +10,15 @@
         </div>
       </a>
     </div>
+  </div>
+  <div ng-repeat="action in data.actions">
+      <h3>{{ action.name }}</h3>
+      <form name="{{ action.name }}" ng-submit="loadResource(action.href, action.method, action.name)">
+        <div ng-repeat="field in action.fields">
+          <label for="{{ field.name }}">{{ field.name }}</label>
+          <input type="text" name="{{ field.name }}">
+        </div>
+        <input type="submit" value="Submit">
+      </form>
   </div>
 </div>
