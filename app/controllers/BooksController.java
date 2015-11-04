@@ -94,7 +94,7 @@ public class BooksController extends BasicController {
 	}
 	
 	private static List<BookResource> getBooksList(Integer page, Integer size) {
-		size = (size == null) ? 3 : size;
+		size = (size == null) ? 10 : size;
 		page = (page == null) ? 0 : page;
 
 		List<Book> books = Book.find("order by insertedAt asc").fetch(page + 1, size);

@@ -15,6 +15,10 @@ public class SecurityController extends Controller {
 
 	@Before
 	public static void checkAuthentication(){
+		if(getAuthUserName() != null && !isAuthenticated()){
+			unauthorized();
+		}
+		
 		Secured secured = getActionAnnotation(Secured.class);
 		if (secured != null) {
 			if(!isAuthenticated()){
@@ -26,6 +30,11 @@ public class SecurityController extends Controller {
     @Secured
     public static void login(){
     	renderText("Success");
+    }
+    
+    @Secured
+    public static void logout(){
+    	unauthorized();
     }
 	
 	@Util

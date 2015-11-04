@@ -21,6 +21,17 @@ angular.module('myApp', [
       $scope.navigation = {};
       $scope.data = {};
 
+      $scope.init = function(){
+        $scope.loadNavigation(function(){
+            $scope.loadResource($scope.getHrefByRel($scope.navigation.links, 'Books'));
+        });
+      }
+
+      $scope.loadResource = function(url, method, formName){
+        $scope.loadNavigation(function(){});
+        $scope.load(url, method, formName);
+      }
+
       $scope.loadNavigation = function(successCallback){
         $http({
           method: 'GET',
@@ -37,7 +48,7 @@ angular.module('myApp', [
         });
       }
 
-      $scope.loadResource = function(url, method, formName){
+      $scope.load= function(url, method, formName){
         if(typeof method == "undefined") {method = 'GET';}
         var data = {};
         if(typeof formName !== "undefined") {
@@ -96,9 +107,7 @@ angular.module('myApp', [
         return '';
       }
 
-      $scope.loadNavigation(function(){
-          $scope.loadResource($scope.getHrefByRel($scope.navigation.links, 'Books'));
-      });
+      $scope.init();
     }
   }
 });

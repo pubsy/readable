@@ -21,6 +21,7 @@ GET     /users/{id}                             UsersController.user
 POST    /register                               UsersController.createUser
 
 GET    	/login                                  SecurityController.login
+GET    	/logout                                 SecurityController.logout
 
 # Hypercore routes
 *       /                                       module:hypercore

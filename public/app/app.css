@@ -47,7 +47,7 @@
 .books-items .book {
     display: inline-block;
     overflow: hidden;
-    width: 33%;
+    max-width: 200px;
     margin: 0 0em 3em 0;
     vertical-align: middle;
 }

@@ -23,12 +23,16 @@ public final class NavigationResource implements Resource {
 	@Link(rel = "Login")
 	public String login;
 	
+	@Link(rel = "Logout")
+	public String logout;
+	
 	public NavigationResource(User authenticatedUser) {
 		if(authenticatedUser == null) {
 			login = "/login";
 			register = "/register";
 		} else {
 			myProfile = "/users/" + authenticatedUser.id;
+			logout = "/logout";
 		}
 	}
 
