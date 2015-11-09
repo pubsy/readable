@@ -43,7 +43,7 @@ public class BooksController extends BasicController {
 	
 	public static void searchBooks(String query) {
 		List<BookResource> books = getBooks(query);
-		render(new BooksListResource(books, (long)books.size(), books.size(), 0));
+		render(new BooksListResource(books, 9l, 9, 0));
 	}
 
 	@Secured
@@ -94,7 +94,7 @@ public class BooksController extends BasicController {
 	}
 	
 	private static List<BookResource> getBooksList(Integer page, Integer size) {
-		size = (size == null) ? 10 : size;
+		size = (size == null) ? 9 : size;
 		page = (page == null) ? 0 : page;
 
 		List<Book> books = Book.find("order by insertedAt asc").fetch(page + 1, size);
@@ -108,7 +108,7 @@ public class BooksController extends BasicController {
 	}
 	
 	private static List<BookResource> getBooks(String query) {
-		JsonElement jsonElement = getExternalResource("https://www.googleapis.com/books/v1/volumes?q=" 
+		JsonElement jsonElement = getExternalResource("https://www.googleapis.com/books/v1/volumes?startIndex=0&maxResults=9&q=" 
 				+ query.replaceAll("\\s", "+"));
 		
 		List<BookResource> list = new ArrayList<BookResource>();

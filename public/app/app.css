@@ -2,14 +2,18 @@
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
-  max-width: 700px;
+  max-width: 800px;
 }
 .container-narrow > hr {
   margin: 30px 0;
 }
 
+.books-items {
+    /*margin: auto;*/
+}
+
 .book .cover {
-    width: 50px;
+    /*width: 90px;
     height: 70px;
     float: left;
     margin-right: 1em;
@@ -20,34 +24,51 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    text-align: center;
+    text-align: center;*/
+}
+
+.book .body {
+  float: right;
+  margin: 10px;
 }
 
 .book .body .author {
     display: block;
-    margin-bottom: .1em;
+    /*margin-bottom: .1em;
     color: #888;
+    overflow: hidden;*/
 }
 
 .book .body .title {
-    font-size: 11pt;
+    display: block;
+    /*font-size: 11pt;
     text-decoration: underline;
+    overflow: hidden;*/
 }
 
 .book .body .count {
     display: block;
+    /*display: block;
     margin-top: .2em;
-    color: #888;
+    color: #888;*/
 }
 
-.books-items {
-    margin: auto;
+.books-items .book A {
+    overflow: hidden;
+    text-decoration: none;
 }
 
 .books-items .book {
-    display: inline-block;
+    float: left;
     overflow: hidden;
-    max-width: 200px;
-    margin: 0 0em 3em 0;
+    margin: 0 1em 1em 0;
     vertical-align: middle;
+    height: 150px;
+}
+
+.truncate {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

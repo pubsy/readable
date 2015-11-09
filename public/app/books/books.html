@@ -1,17 +1,17 @@
 <div>
   <div class="books-items">
     <div ng-repeat="book in data.properties.items" class="book">
-      <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
-        <div class="cover" style="background-image:url('{{ book.properties.thumbnailUrl }}')"></div>
-        <div class="body">
-          <span class="author">{{ book.properties.authorName }}</span>
-          <span class="title">{{ book.properties.title }}</span>
-          <span class="count">{{ book.properties.readersCount }}</span>
-        </div>
-      </a>
+          <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
+            <img class="cover" src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
+            <div class="body">
+              <span class="author truncate">{{ book.properties.authorName }}</span>
+              <span class="title truncate">{{ book.properties.title }}</span>
+              <span class="count truncate">{{ book.properties.readersCount }}</span>
+            </div>
+          </a>
     </div>
   </div>
-  <div ng-repeat="action in data.actions">
+  <div ng-repeat="action in data.actions" style="clear:both;">
       <h3>{{ action.name }}</h3>
       <form name="{{ action.name }}" ng-submit="loadResource(action.href, action.method, action.name)">
         <div ng-repeat="field in action.fields">
