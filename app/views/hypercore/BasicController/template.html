@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<body>
+		#{ifnot resource.links.isEmpty()}<h3>Lisks:</h3>#{/ifnot}
+		<ul>
+			#{list items:resource.links, as:'link' }
+			<li><a href="${link.uri}">${link.rel}</a></li>
+			#{/list}
+		</ul>
+		
+		#{ifnot resource.operations.isEmpty()}<h3>Forms:</h3>#{/ifnot}
+		#{list items:resource.operations, as:'operation' }
+			<div style="padding-left: 20px;">
+				<h4>${operation.rel}</h4>
+				<form method="${operation.method}" action="${operation.uri}">
+					#{list items:operation.params, as:'param' }
+					<label for="${param}">${param}</label>
+					<input type="text" name="${param}" />
+					#{/list}
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		#{/list}
+		
+		#{if (resource.properties.size() > 0 || resource.collections.size >0)}<h3>Properties:</h3>#{/if}
+		<ul>
+			#{list items:resource.properties, as:'property' }
+			<li>${property.name}: ${property.value}</li>
+			#{/list}
+			#{list items:resource.collections, as:'collection' }
+				<li>${collection.name}: [
+					#{list items:collection.items, as:'link' }
+						<a href="${link.uri}">${link.rel}</a>&nbsp;
+					#{/list}
+				]</li>
+			#{/list}
+		</ul>
+		
+	</body>
+</html>

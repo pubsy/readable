@@ -2,17 +2,3 @@
 
 require:
     - play
-    - hypercore -> hypercore latest.integration
-    - com.strategicgains -> HyperExpress-Siren 2.5
-
-repositories:
-    - local:
-        type: local
-        artifact: ${application.path}/../hypercore/hypercore
-        contains:
-            - hypercore
-    - google:
-        type: iBiblio
-        root: "http://repo1.maven.org/maven2"
-        contains:
-            - com.strategicgains -> *
