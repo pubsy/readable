@@ -2,15 +2,12 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
-  'ngRoute',
   'myApp.books',
   'myApp.book',
   'myApp.user',
   'myApp.users',
   'myApp.navigation',
-  'myApp.version',
-  'hrCore',
-  'hrSiren'
+  'myApp.search'
 ])
 
 .directive('parentDirective', function($http, $compile){
@@ -20,6 +17,7 @@ angular.module('myApp', [
 
       $scope.navigation = {};
       $scope.data = {};
+      $scope.search;
 
       $scope.init = function(){
         $scope.loadNavigation(function(){
@@ -49,6 +47,9 @@ angular.module('myApp', [
       }
 
       $scope.load= function(url, method, formName){
+
+        $scope.search = {};
+
         if(typeof method == "undefined") {method = 'GET';}
         var data = {};
         if(typeof formName !== "undefined") {
@@ -70,6 +71,7 @@ angular.module('myApp', [
         }).then(function(response) {
           var htm = '';
           $scope.data = response.data;
+          $scope.search = $scope.getActionByRel('search');
 
           switch (response.data.class) {
             case "NavigationResource":
@@ -91,9 +93,9 @@ angular.module('myApp', [
           }
           var compiled = $compile(htm)($scope);
           $element.html(compiled);
-          }, function errorCallback(response) {
+        }, function errorCallback(response) {
             alert('Error: ' + response);
-          });
+        });
       };
 
       $scope.getHrefByRel = function(links, rel){
@@ -105,6 +107,24 @@ angular.module('myApp', [
           }
         }
         return '';
+      }
+
+      $scope.getActionByRel = function(rel){
+        if($scope.data.actions == null){
+          return null;
+        }
+        for(var action of $scope.data.actions){
+          for(var currRel of action.rel){
+            if(currRel == rel){
+              return action;
+            }
+          }
+        }
+        return null;
+      }
+
+      $scope.isActionPresent = function(rel){
+        return $scope.getActionByRel(actions, rel) == null;
       }
 
       $scope.init();

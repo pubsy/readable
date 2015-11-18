@@ -3,7 +3,7 @@
     <div class="books-items">
       <div ng-repeat="book in data.properties.readBooks" class="book">
         <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
-          <img class="cover" src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
+          <img class="cover" ng-src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
           <div class="body">
             <span class="author truncate">{{ book.properties.authorName }}</span>
             <span class="title truncate">{{ book.properties.title }}</span>
@@ -13,7 +13,7 @@
       </div>
       <div ng-repeat="book in data.properties.planningToReadBooks" class="book">
         <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
-          <img class="cover" src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
+          <img class="cover" ng-src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
           <div class="body">
             <span class="author truncate">{{ book.properties.authorName }}</span>
             <span class="title truncate">{{ book.properties.title }}</span>

@@ -72,3 +72,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+input[type="text"].search-input {
+  margin-bottom: 0px;
+}

@@ -1,7 +1,7 @@
 <div class="books-items ">
   <div class="book">
-    <a href ng-click="loadResource(getHrefByRel(data.links, 'self'))">
-      <img class="cover" src="{{ data.properties.thumbnailUrl }}" width="70px" height="90px"/>
+    <a href ng-click="loadResource(getHrefByRel(data.links,'self'))">
+      <img class="cover" ng-src="{{ data.properties.thumbnailUrl }}" width="70px" height="90px"/>
       <div class="body">
         <span class="author">{{ data.properties.authorName }}</span>
         <span class="title">{{ data.properties.title }}</span>

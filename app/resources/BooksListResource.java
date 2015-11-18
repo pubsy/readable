@@ -17,7 +17,7 @@ public class BooksListResource extends PagedListResource<BookResource> {
 
 	private static final String BASE_URL = "/books";
 	
-	@Operation(rel = "search-book", method = "GET", params = { @Parameter(name = "query")})
+	@Operation(rel = "search", name="search",  method = "GET", title="Title, author etc.", params = { @Parameter(name = "query")})
 	public String searchBook = "/books-search";
 	
 	public BooksListResource(List<BookResource> items, Long totalElements, Integer size, Integer page) {

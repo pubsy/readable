@@ -15,6 +15,8 @@ public class SecurityController extends Controller {
 
 	@Before
 	public static void checkAuthentication(){
+		response.headers.put("Access-Control-Allow-Origin", new Header("Access-Control-Allow-Origin", "http://localhost:8000"));
+		
 		if(getAuthUserName() != null && !isAuthenticated()){
 			unauthorized();
 		}
@@ -26,16 +28,6 @@ public class SecurityController extends Controller {
 			}
 		}
 	}
-
-    @Secured
-    public static void login(){
-    	renderText("Success");
-    }
-    
-    @Secured
-    public static void logout(){
-    	unauthorized();
-    }
 	
 	@Util
 	public static User getAuthenticatedUser() {

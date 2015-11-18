@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import play.mvc.With;
+import play.mvc.Http.Header;
 import models.User;
 import resources.BooksListResource;
 import resources.UserResource;

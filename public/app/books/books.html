@@ -1,24 +1,12 @@
-<div>
-  <div class="books-items">
-    <div ng-repeat="book in data.properties.items" class="book">
-          <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
-            <img class="cover" src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
-            <div class="body">
-              <span class="author truncate">{{ book.properties.authorName }}</span>
-              <span class="title truncate">{{ book.properties.title }}</span>
-              <span class="count truncate">{{ book.properties.readersCount }}</span>
-            </div>
-          </a>
-    </div>
-  </div>
-  <div ng-repeat="action in data.actions" style="clear:both;">
-      <h3>{{ action.name }}</h3>
-      <form name="{{ action.name }}" ng-submit="loadResource(action.href, action.method, action.name)">
-        <div ng-repeat="field in action.fields">
-          <label for="{{ field.name }}">{{ field.name }}</label>
-          <input type="text" name="{{ field.name }}">
-        </div>
-        <input type="submit" value="Submit">
-      </form>
+<div class="books-items">
+  <div ng-repeat="book in data.properties.items" class="book">
+        <a href ng-click="loadResource(getHrefByRel(book.links, 'self'))">
+          <img class="cover" ng-src="{{ book.properties.thumbnailUrl }}" width="70px" height="90px"/>
+          <div class="body">
+            <span class="author truncate">{{ book.properties.authorName }}</span>
+            <span class="title truncate">{{ book.properties.title }}</span>
+            <span class="count truncate">{{ book.properties.readersCount }}</span>
+          </div>
+        </a>
   </div>
 </div>

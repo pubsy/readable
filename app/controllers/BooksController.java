@@ -3,11 +3,6 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import models.Book;
 import models.User;
@@ -18,9 +13,13 @@ import play.libs.F.Promise;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
 import play.mvc.With;
-import play.mvc.results.Result;
 import resources.BookResource;
 import resources.BooksListResource;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import controllers.SecurityController.Secured;
 import controllers.hypercore.BasicController;
 
@@ -40,7 +39,7 @@ public class BooksController extends BasicController {
 	public static void book(String externalId) {
 		render(new BookResource(getBookByExternalId(externalId)));
 	}
-	
+
 	public static void searchBooks(String query) {
 		List<BookResource> books = getBooks(query);
 		render(new BooksListResource(books, 9l, 9, 0));
@@ -50,11 +49,11 @@ public class BooksController extends BasicController {
 	public static void mark(String externalId, UserBookConnection.ConnectionType type) {
 		User user = SecurityController.getAuthenticatedUser();
 		Book book = getBookByExternalId(externalId);
-		
-		if(!book.isPersistent()) {
+
+		if (!book.isPersistent()) {
 			book.save();
 		}
-		
+
 		removeExistingUserBookConnectionIfExists(type, user, book);
 		saveNewUserBookConnection(type, user, book);
 
@@ -86,13 +85,13 @@ public class BooksController extends BasicController {
 
 	private static Book getBookByExternalId(String externalId) {
 		Book book = Book.find("byExternalId", externalId).first();
-		if(book == null){
+		if (book == null) {
 			JsonElement jsonElement = getExternalResource(GOOGLE_BOOK + externalId);
 			book = parseBook(jsonElement);
 		}
 		return book;
 	}
-	
+
 	private static List<BookResource> getBooksList(Integer page, Integer size) {
 		size = (size == null) ? 9 : size;
 		page = (page == null) ? 0 : page;
@@ -106,14 +105,13 @@ public class BooksController extends BasicController {
 
 		return resources;
 	}
-	
+
 	private static List<BookResource> getBooks(String query) {
-		JsonElement jsonElement = getExternalResource("https://www.googleapis.com/books/v1/volumes?startIndex=0&maxResults=9&q=" 
-				+ query.replaceAll("\\s", "+"));
-		
+		JsonElement jsonElement = getExternalResource(GOOGLE_BOOK + "?startIndex=0&maxResults=9&q=" + query.replaceAll("\\s", "+"));
+
 		List<BookResource> list = new ArrayList<BookResource>();
 		Iterator<JsonElement> iterator = jsonElement.getAsJsonObject().getAsJsonArray("items").iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			list.add(parseBookResource(iterator.next()));
 		}
 
@@ -123,7 +121,7 @@ public class BooksController extends BasicController {
 	private static JsonElement getExternalResource(String externalUrl) {
 		F.Promise<WS.HttpResponse> f = WS.url(externalUrl).getAsync();
 		Promise<HttpResponse> promise = F.Promise.waitAny(f);
-							
+
 		HttpResponse httpResponse = null;
 		try {
 			httpResponse = promise.get();
@@ -135,7 +133,7 @@ public class BooksController extends BasicController {
 
 	private static BookResource parseBookResource(JsonElement element) {
 		Book book = parseBook(element);
-		
+
 		return new BookResource(book);
 	}
 
@@ -143,21 +141,21 @@ public class BooksController extends BasicController {
 		String title = "";
 		String authorName = "";
 		String thumbnailUrl = "https://books.google.de/googlebooks/images/no_cover_thumb.gif";
-		
+
 		JsonObject volumeInfo = element.getAsJsonObject().getAsJsonObject("volumeInfo").getAsJsonObject();
-		
+
 		title = volumeInfo.getAsJsonPrimitive("title").getAsString();
 		JsonArray authorsArray = volumeInfo.getAsJsonArray("authors");
-		if(authorsArray != null){
+		if (authorsArray != null) {
 			authorName = volumeInfo.getAsJsonArray("authors").get(0).getAsString();
 		}
 		JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
-		if(imageLinks != null){
+		if (imageLinks != null) {
 			thumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("smallThumbnail").getAsString();
 		}
-		
+
 		String externalBookId = element.getAsJsonObject().getAsJsonPrimitive("id").getAsString();
-		
+
 		return new Book(externalBookId, title, authorName, thumbnailUrl);
 	}
 }

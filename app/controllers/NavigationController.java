@@ -1,6 +1,7 @@
 package controllers;
 
 import play.mvc.With;
+import play.mvc.Http.Header;
 import resources.NavigationResource;
 import controllers.hypercore.BasicController;
 

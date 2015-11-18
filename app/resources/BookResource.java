@@ -9,10 +9,10 @@ import controllers.SecurityController;
 
 public class BookResource extends BasicResource {
 
-	@Operation(rel = "mark-as-read", method = "POST")
+	@Operation(rel = "mark-as-read", name = "mark-as-read", method = "POST", title="Add to 'Read'")
 	public String markAsRead;
 
-	@Operation(rel = "mark-as-planning-to-read", method = "POST")
+	@Operation(rel = "mark-as-planning-to-read", name = "mark-as-planning-to-read", method = "POST", title="Add to 'Planing to read'")
 	public String markAsPlanningToRead;
 
 	public String title;
