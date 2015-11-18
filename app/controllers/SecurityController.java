@@ -15,7 +15,7 @@ public class SecurityController extends Controller {
 
 	@Before
 	public static void checkAuthentication(){
-		response.headers.put("Access-Control-Allow-Origin", new Header("Access-Control-Allow-Origin", "http://localhost:8000,http://readable-web.herokuapp.com"));
+		response.headers.put("Access-Control-Allow-Origin", new Header("Access-Control-Allow-Origin", "http://readable-web.herokuapp.com"));
 		
 		if(getAuthUserName() != null && !isAuthenticated()){
 			unauthorized();
