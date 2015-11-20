@@ -11,12 +11,10 @@ import play.mvc.Controller;
 import play.mvc.Util;
 import play.mvc.Http.Header;
 
-public class SecurityController extends Controller {
+public class SecurityController extends BasicInterceptor {
 
 	@Before
 	public static void checkAuthentication(){
-		response.headers.put("Access-Control-Allow-Origin", new Header("Access-Control-Allow-Origin", "http://readable-web.herokuapp.com"));
-		
 		if(getAuthUserName() != null && !isAuthenticated()){
 			unauthorized();
 		}
