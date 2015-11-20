@@ -19,7 +19,12 @@ public class BasicInterceptor extends Controller {
 
 	@Before
 	public static void intercept() {
-		String origin = request.headers.get(ORIGIN_HEADER_NAME).value();
+		Header originHeader = request.headers.get(ORIGIN_HEADER_NAME);
+		if(originHeader == null){
+			return;
+		}
+		
+		String origin = originHeader.value();
 		if (ArrayUtils.contains(allowedOrigins, origin)) {
 			addHeader(origin);
 		}
