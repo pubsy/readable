@@ -13,7 +13,7 @@ public class BasicInterceptor extends Controller {
 	private static final String SEPARATOR = ",";
 	private static final String ALLOWED_ORIGINS_PROP_NAME = "allowed.origins";
 	private static final String ACCESS_CONTROL_HEADER_NAME = "Access-Control-Allow-Origin";
-	private static final String ORIGIN_HEADER_NAME = "Origin";
+	private static final String ORIGIN_HEADER_NAME = "origin";
 
 	private static final String[] allowedOrigins = Play.configuration.getProperty(ALLOWED_ORIGINS_PROP_NAME).split(SEPARATOR);
 
