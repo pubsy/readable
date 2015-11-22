@@ -21,21 +21,25 @@ public class Book extends BasicModel {
 	@Column(nullable = false)
 	public String title;
 	
+	@Lob
+	@Column(nullable = false)
+	public String description;
+	
 	@Column(nullable = false)
 	public String authorName;
 	
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, length=512)
 	public String thumbnailUrl;
+
+	@Lob
+	@Column(nullable = false, length=512)
+	public String smallThumbnailUrl;
 	
 	@OneToMany(mappedBy = "book", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	public List<UserBookConnection> readers = new ArrayList<UserBookConnection>();
 
-	public Book(String exteranlId, String name, String authorName, String thumbnailUrl){
-		this.externalId = exteranlId;
-		this.title = name;
-		this.authorName = authorName;
-		this.thumbnailUrl = thumbnailUrl;
+	public Book(){
 	}
 
 }

@@ -16,16 +16,22 @@ public class BookResource extends BasicResource {
 	public String markAsPlanningToRead;
 
 	public String title;
+	public String description;
 	public String authorName;
 	public String thumbnailUrl;
+	public String smallThumbnailUrl;
 	public int readersCount;
+
+
 	
 	public BookResource(Book book) {
 		super("/books/" + book.externalId);
 		this.title = book.title;
+		this.description = book.description;
 		this.authorName = book.authorName;
 		this.readersCount = book.readers.size();
 		this.thumbnailUrl = book.thumbnailUrl;
+		this.smallThumbnailUrl = book.smallThumbnailUrl;
 
 		if(!SecurityController.isAuthenticated()){
 			return;

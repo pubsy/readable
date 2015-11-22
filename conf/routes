@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /app/                                  staticDir:/public/app
-GET     /app                                   staticFile:/public/app/index.html
+GET     /app/                                   staticDir:/public/app
+GET     /app                                    staticFile:/public/app/index.html
 
 GET     /                                       NavigationController.navigate
 
@@ -20,8 +20,13 @@ GET     /users/page/{page}/size/{size}          UsersController.users
 GET     /users/{id}                             UsersController.user
 POST    /register                               UsersController.createUser
 
-# Hypercore routes
-*       /                                       module:hypercore
+#CORS require OPTIONS method to be always available
+OPTIONS /                                       BasicInterceptor.options
+OPTIONS /{a}                                    BasicInterceptor.options
+OPTIONS /{a}/{b}                                BasicInterceptor.options
+OPTIONS /{a}/{b}/{c}                            BasicInterceptor.options
+OPTIONS /{a}/{b}/{c}/{d}                        BasicInterceptor.options
+OPTIONS /{a}/{b}/{c}/{d}/{e}                    BasicInterceptor.options
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

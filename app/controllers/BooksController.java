@@ -19,6 +19,7 @@ import resources.BooksListResource;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import controllers.SecurityController.Secured;
 import controllers.hypercore.BasicController;
@@ -31,6 +32,7 @@ public class BooksController extends BasicController {
 	 */
 
 	private static final String GOOGLE_BOOK = "https://www.googleapis.com/books/v1/volumes/";
+	//private static final String AUTHOR_SEARCH = "https://www.googleapis.com/books/v1/volumes?q=Kobzar+inauthor:Shevchenko";
 
 	public static void books(Integer page, Integer size) {
 		render(new BooksListResource(getBooksList(page, size), getTotalBooksCount(), size, page));
@@ -141,6 +143,7 @@ public class BooksController extends BasicController {
 		String title = "";
 		String authorName = "";
 		String thumbnailUrl = "https://books.google.de/googlebooks/images/no_cover_thumb.gif";
+		String smallThumbnailUrl = "https://books.google.de/googlebooks/images/no_cover_thumb.gif";
 
 		JsonObject volumeInfo = element.getAsJsonObject().getAsJsonObject("volumeInfo").getAsJsonObject();
 
@@ -151,11 +154,24 @@ public class BooksController extends BasicController {
 		}
 		JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
 		if (imageLinks != null) {
-			thumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("smallThumbnail").getAsString();
+			thumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("thumbnail").getAsString();
+			smallThumbnailUrl = imageLinks.getAsJsonObject().getAsJsonPrimitive("smallThumbnail").getAsString();
 		}
 
 		String externalBookId = element.getAsJsonObject().getAsJsonPrimitive("id").getAsString();
+		JsonPrimitive descriptionObject = volumeInfo.getAsJsonPrimitive("description");
+		String description = null;
+		if(descriptionObject != null){
+			description = volumeInfo.getAsJsonPrimitive("description").getAsString();
+		}
 
-		return new Book(externalBookId, title, authorName, thumbnailUrl);
+		Book book = new Book();
+		book.externalId = externalBookId;
+		book.title = title;
+		book.description = description;
+		book.authorName = authorName;
+		book.thumbnailUrl = thumbnailUrl;
+		book.smallThumbnailUrl = smallThumbnailUrl;
+		return book;
 	}
 }

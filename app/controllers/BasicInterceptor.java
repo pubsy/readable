@@ -26,11 +26,17 @@ public class BasicInterceptor extends Controller {
 		
 		String origin = originHeader.value();
 		if (ArrayUtils.contains(allowedOrigins, origin)) {
-			addHeader(origin);
+			addOriginHeader(origin);
 		}
 	}
-
-	private static void addHeader(String domain) {
-		response.headers.put(ACCESS_CONTROL_HEADER_NAME, new Header(ACCESS_CONTROL_HEADER_NAME, domain));
+	
+	public static void options(){
+		ok();
 	}
+	
+	private static void addOriginHeader(String domain) {
+		response.headers.put(ACCESS_CONTROL_HEADER_NAME, new Header(ACCESS_CONTROL_HEADER_NAME, domain));
+		response.headers.put("Access-Control-Allow-Headers", new Header("Access-Control-Allow-Headers", "Authorization"));
+	}
+	
 }
