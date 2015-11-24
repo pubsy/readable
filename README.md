@@ -17,7 +17,7 @@ http://readable-api.herokuapp.com
 - https://schema.org/Person
 
 ### Supported link/operation relations:
-- navigation - should appear in the menu
+- navigation - group of items that should appear in the menu
 - first
 - last
 - previous
