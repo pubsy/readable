@@ -1,18 +1,17 @@
 package resources;
 
 import hypermedia.annotations.Operation;
-import hypermedia.core.BasicResource;
 import models.Book;
 import models.User;
 import models.UserBookConnection;
 import controllers.SecurityController;
 
-public class BookResource extends BasicResource {
+public class BookResource extends ReadableBasicResource {
 
-	@Operation(rel = "mark-as-read", name = "mark-as-read", method = "POST", title="Add to 'Read'")
+	@Operation(rel = "mark-as-read", method = "POST", title="Add to 'Read'")
 	public String markAsRead;
 
-	@Operation(rel = "mark-as-planning-to-read", name = "mark-as-planning-to-read", method = "POST", title="Add to 'Planing to read'")
+	@Operation(rel = "mark-as-planning-to-read", method = "POST", title="Add to 'Planing to read'")
 	public String markAsPlanningToRead;
 
 	public String title;
@@ -22,10 +21,10 @@ public class BookResource extends BasicResource {
 	public String smallThumbnailUrl;
 	public int readersCount;
 
-
 	
 	public BookResource(Book book) {
-		super("/books/" + book.externalId);
+		setSelf("/books/" + book.externalId);
+		
 		this.title = book.title;
 		this.description = book.description;
 		this.authorName = book.authorName;

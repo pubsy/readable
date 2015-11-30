@@ -62,7 +62,7 @@ public class ResourceDeserializer implements JsonDeserializer<Resource> {
 		while(iterator.hasNext()){
 			Entry<String, JsonElement> entry = iterator.next();
 			
-			if(entry.getKey().equals(field.getAnnotationsByType(Operation.class)[0].rel())){
+			if(entry.getKey().equals(field.getAnnotation(Operation.class).rel())){
 				try {
 					field.set(resource, entry.getValue().getAsJsonObject().get("href").getAsString());
 				} catch (IllegalArgumentException e) {
@@ -86,7 +86,7 @@ public class ResourceDeserializer implements JsonDeserializer<Resource> {
 		while(iterator.hasNext()){
 			Entry<String, JsonElement> entry = iterator.next();
 			
-			if(entry.getKey().equals(field.getAnnotationsByType(Link.class)[0].rel())){
+			if(entry.getKey().equals(field.getAnnotation(Link.class).rel())){
 				try {
 					field.set(resource, entry.getValue().getAsString());
 				} catch (IllegalArgumentException e) {
@@ -102,7 +102,7 @@ public class ResourceDeserializer implements JsonDeserializer<Resource> {
 	private Resource createResourceInstance(Type type) {
 		Resource resource = null;
 		try {
-			Class clazz = Class.forName(type.getTypeName());
+			Class clazz = Class.forName(type.getClass().getName());
 			resource = (Resource) clazz.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();

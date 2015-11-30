@@ -3,7 +3,6 @@ package resources;
 import hypermedia.annotations.Link;
 import hypermedia.annotations.Operation;
 import hypermedia.annotations.Parameter;
-import hypermedia.core.PagedListResource;
 import hypermedia.core.Resource;
 
 import java.io.UnsupportedEncodingException;
@@ -17,11 +16,11 @@ public class BooksListResource extends PagedListResource<BookResource> {
 
 	private static final String BASE_URL = "/books";
 	
-	@Operation(rel = "search", name="search",  method = "GET", title="Title, author etc.", params = { @Parameter(name = "query")})
+	@Operation(rel = "search", method = "GET", title="Title, author etc.", params = { @Parameter(name = "query")})
 	public String searchBook = "/books-search";
 	
-	public BooksListResource(List<BookResource> items, Long totalElements, Integer size, Integer page) {
-		super(items, BASE_URL, totalElements, size, page);
+	public BooksListResource() {
+		withRootUrl(BASE_URL);
 	}
 
 }

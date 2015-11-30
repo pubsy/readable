@@ -3,8 +3,6 @@ package hypermedia.mediatypes.xhtml;
 import hypermedia.annotations.Link;
 import hypermedia.annotations.Operation;
 import hypermedia.annotations.Parameter;
-import hypermedia.core.BasicResource;
-import hypermedia.core.PagedListResource;
 import hypermedia.core.Resource;
 import hypermedia.mediatypes.json.ReflectionUtils;
 
@@ -19,6 +17,8 @@ import java.util.Map;
 import com.google.gson.JsonElement;
 
 import play.Play;
+import resources.ReadableBasicResource;
+import resources.PagedListResource;
 
 public class XhtmlResourceAdapter {
 
@@ -40,14 +40,14 @@ public class XhtmlResourceAdapter {
 				List<LinkAdapter> items = new ArrayList<LinkAdapter>();
 				
 				try {
-					Collection<BasicResource> collection = (Collection) field.get(resource);
+					Collection<ReadableBasicResource> collection = (Collection) field.get(resource);
 					if(collection == null){
 						continue;
 					}
-					Iterator<BasicResource> i = collection.iterator();
+					Iterator<ReadableBasicResource> i = collection.iterator();
 					while(i.hasNext()){
-						BasicResource next = i.next();
-						items.add(new LinkAdapter(next.toString(), next.self));
+						ReadableBasicResource next = i.next();
+						items.add(new LinkAdapter(next.toString(), next.self, next.toString()));
 					}
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
@@ -88,7 +88,7 @@ public class XhtmlResourceAdapter {
 			Link link = field.getAnnotation(Link.class);
 			String uri = (String) ReflectionUtils.getFieldValue(resource, field);
 			if(uri != null){
-				links.add(new LinkAdapter(link.rel(), uri));
+				links.add(new LinkAdapter(link.rel(), uri, link.title()));
 			}
 		}
 	}
@@ -107,10 +107,12 @@ public class XhtmlResourceAdapter {
 
 		public String uri;
 		public String rel;
+        public String title;
 
-		public LinkAdapter(String rel, String uri) {
+		public LinkAdapter(String rel, String uri, String title) {
 			this.uri = uri;
 			this.rel = rel;
+			this.title = title;
 		}
 	}
 	
@@ -120,7 +122,7 @@ public class XhtmlResourceAdapter {
 		public List<String> params = new ArrayList<String>();
 		
 		public OperationAdapter(Operation operation, String uri) {
-			super(operation.rel(), uri);
+			super(operation.rel(), uri, operation.title());
 			this.method = operation.method();
 			for(Parameter param: operation.params()){
 				this.params.add(param.name());
@@ -135,7 +137,7 @@ public class XhtmlResourceAdapter {
 		
 		public PropertyAdapter(String name, Object value2){
 			this.name = name;
-			this.value = value2.toString();
+			this.value = value2 == null ? "" : value2.toString();
 		}
 	}
 }

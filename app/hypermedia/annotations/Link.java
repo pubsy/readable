@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface Link {
 
 	String rel();
+	
+	String title() default "self";
 
 }

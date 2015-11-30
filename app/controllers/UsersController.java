@@ -21,7 +21,14 @@ public class UsersController extends BasicController {
 	 */
 
 	public static void users(Integer page, Integer size){
-		render(new UsersListResource(getUsers(page, size), getTotalUsersCount(), size, page));
+	    UsersListResource usersListRes = new UsersListResource();
+	    usersListRes.withItems(getUsers(page, size));
+	    usersListRes.withPage(page);
+	    usersListRes.withTotalElements(getTotalUsersCount());
+	    usersListRes.withSize(size);
+	    usersListRes.build();
+	    
+		render(usersListRes);
 	}
 
 	public static void user(long id){
@@ -33,6 +40,10 @@ public class UsersController extends BasicController {
 		response.status = 201;
 		response.setHeader("Location", "/users/" + user.id);
 		render(getUser(user.id));
+	}
+	
+	public static void myProfile(){
+	    render(new UserResource(SecurityController.getAuthenticatedUser()));
 	}
 	
 	/*

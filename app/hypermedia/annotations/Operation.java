@@ -14,8 +14,6 @@ public @interface Operation {
 	String method();
 	
 	String title();
-	
-	String name();
 
 	Parameter[] params() default {};
 

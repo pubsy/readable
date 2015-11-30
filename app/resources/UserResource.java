@@ -1,14 +1,12 @@
 package resources;
 
-import hypermedia.core.BasicResource;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import models.User;
 import models.UserBookConnection;
 
-public class UserResource extends BasicResource{
+public class UserResource extends ReadableBasicResource{
 
 	public String username;
 	
@@ -16,7 +14,8 @@ public class UserResource extends BasicResource{
 	public List<BookResource> planningToReadBooks;
 
 	public UserResource(User user) {
-		super("/users/" + user.getId());
+		setSelf("/users/" + user.getId());
+		
 		this.username = user.username;
 		this.readBooks = convertToResource(user.readBooks);
 		this.planningToReadBooks = convertToResource(user.planningToReadBooks);

@@ -6,9 +6,8 @@
 GET     /app/                                   staticDir:/public/app
 GET     /app                                    staticFile:/public/app/index.html
 
-GET     /                                       NavigationController.navigate
+GET     /                                       BooksController.books
 
-GET     /books                                  BooksController.books
 GET     /books/page/{page}/size/{size}          BooksController.books
 GET     /books/{externalId}                     BooksController.book
 POST    /books/{externalId}/mark                BooksController.mark
@@ -18,6 +17,9 @@ GET     /book-search/{externalBookId}           BooksController.searchBook
 GET     /users                                  UsersController.users
 GET     /users/page/{page}/size/{size}          UsersController.users
 GET     /users/{id}                             UsersController.user
+
+GET     /my-profile                             UsersController.myProfile
+
 POST    /register                               UsersController.createUser
 
 #CORS require OPTIONS method to be always available

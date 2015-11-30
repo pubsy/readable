@@ -4,7 +4,7 @@
 		#{ifnot resource.links.isEmpty()}<h3>Lisks:</h3>#{/ifnot}
 		<ul>
 			#{list items:resource.links, as:'link' }
-			<li><a href="${link.uri}">${link.rel}</a></li>
+			<li><a href="${link.uri}">${link.title}</a></li>
 			#{/list}
 		</ul>
 		

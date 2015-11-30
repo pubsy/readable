@@ -24,9 +24,12 @@ public class LinksWriter extends AbstractWriter {
             	JsonObject jsonLink = new JsonObject();
             	
             	JsonArray relsArray = new JsonArray();
-            	relsArray.add(new JsonPrimitive(link.rel()));
+            	for(String rel: link.rel().split(" ")){
+            	    relsArray.add(new JsonPrimitive(rel));
+            	}
             	jsonLink.add("rel", relsArray);
             	
+            	jsonLink.addProperty("title", link.title());            	
             	jsonLink.addProperty("href", APPLICATION_URL + href);
             	jsonLinksArray.add(jsonLink);
             }

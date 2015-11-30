@@ -1,7 +1,10 @@
 package controllers.hypercore;
 
+import models.User;
+
 import com.google.gson.GsonBuilder;
 
+import controllers.SecurityController;
 import hypermedia.core.Resource;
 import hypermedia.mediatypes.json.serialize.ResourceSerializer;
 import hypermedia.mediatypes.xhtml.XhtmlResourceAdapter;

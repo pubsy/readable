@@ -25,10 +25,11 @@ public class ActionsWriter extends AbstractWriter {
             if(href != null){
             	
             	JsonArray relsArray = new JsonArray();
-            	relsArray.add(new JsonPrimitive(operation.rel()));
+            	for(String rel: operation.rel().split(" ")){
+            	    relsArray.add(new JsonPrimitive(rel));
+            	}
             	operationJsonObject.add("rel", relsArray);
-            	
-            	operationJsonObject.addProperty("name", operation.name());
+
                 operationJsonObject.addProperty("href", APPLICATION_URL + href);
                 operationJsonObject.addProperty("method", operation.method());
                 operationJsonObject.addProperty("title", operation.title());

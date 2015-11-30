@@ -35,17 +35,30 @@ public class BooksController extends BasicController {
 	//private static final String AUTHOR_SEARCH = "https://www.googleapis.com/books/v1/volumes?q=Kobzar+inauthor:Shevchenko";
 
 	public static void books(Integer page, Integer size) {
-		render(new BooksListResource(getBooksList(page, size), getTotalBooksCount(), size, page));
+	    BooksListResource booksListRes = new BooksListResource();
+	    booksListRes.withItems(getBooksList(page, size));
+	    booksListRes.withPage(page);
+	    booksListRes.withSize(size);
+	    booksListRes.withTotalElements(getTotalBooksCount());
+	    booksListRes.build();
+	    
+		render(booksListRes);
 	}
 
 	public static void book(String externalId) {
 		render(new BookResource(getBookByExternalId(externalId)));
 	}
 
-	public static void searchBooks(String query) {
-		List<BookResource> books = getBooks(query);
-		render(new BooksListResource(books, 9l, 9, 0));
-	}
+    public static void searchBooks(String query) {
+        BooksListResource booksListRes = new BooksListResource();
+        booksListRes.withItems(getBooks(query));
+        booksListRes.withPage(0);
+        booksListRes.withSize(9);
+        booksListRes.withTotalElements(9l);
+        booksListRes.build();
+
+        render(booksListRes);
+    }
 
 	@Secured
 	public static void mark(String externalId, UserBookConnection.ConnectionType type) {
