@@ -11,6 +11,6 @@ public @interface Link {
 
 	String rel();
 	
-	String title() default "self";
+	String title() default "No title";
 
 }

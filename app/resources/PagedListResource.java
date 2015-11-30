@@ -10,16 +10,16 @@ import play.mvc.results.NotFound;
 public abstract class PagedListResource<T extends ReadableBasicResource>
     extends ReadableBasicResource {
 
-    @Link(rel = "next")
+    @Link(rel = "next pagination", title = "Next")
     public String next;
 
-    @Link(rel = "previous")
+    @Link(rel = "previous pagination", title = "Previous")
     public String previous;
 
-    @Link(rel = "first")
+    @Link(rel = "first pagination", title = "First")
     public String first;
 
-    @Link(rel = "last")
+    @Link(rel = "last pagination", title = "Last")
     public String last;
 
     public List<T> items;
