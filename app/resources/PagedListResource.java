@@ -10,14 +10,14 @@ import play.mvc.results.NotFound;
 public abstract class PagedListResource<T extends ReadableBasicResource>
     extends ReadableBasicResource {
 
-    @Link(rel = "next pagination", title = "Next")
-    public String next;
+	@Link(rel = "first pagination", title = "First")
+	public String first;
 
-    @Link(rel = "previous pagination", title = "Previous")
-    public String previous;
+	@Link(rel = "previous pagination", title = "Previous")
+	public String previous;
 
-    @Link(rel = "first pagination", title = "First")
-    public String first;
+	@Link(rel = "next pagination", title = "Next")
+	public String next;
 
     @Link(rel = "last pagination", title = "Last")
     public String last;
@@ -68,7 +68,10 @@ public abstract class PagedListResource<T extends ReadableBasicResource>
         if (size * (page + 1) < totalElements) {
             next = rootUrl + "/page/" + (page + 1) + "/size/" + size;
 
-            int maxPage = (int) (totalElements / size + (totalElements % size == 0 ? -1 : 1));
+            int maxPage = (int) (totalElements / size);
+            if(totalElements % size == 0) {
+            	maxPage--;
+            }
 
             last = rootUrl + "/page/" + maxPage + "/size/" + size;
         }

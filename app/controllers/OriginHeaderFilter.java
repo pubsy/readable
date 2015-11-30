@@ -8,11 +8,12 @@ import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Http.Header;
 
-public class BasicInterceptor extends Controller {
+public class OriginHeaderFilter extends Controller {
 
+	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
+	private static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	private static final String SEPARATOR = ",";
 	private static final String ALLOWED_ORIGINS_PROP_NAME = "allowed.origins";
-	private static final String ACCESS_CONTROL_HEADER_NAME = "Access-Control-Allow-Origin";
 	private static final String ORIGIN_HEADER_NAME = "origin";
 
 	private static final String[] allowedOrigins = Play.configuration.getProperty(ALLOWED_ORIGINS_PROP_NAME).split(SEPARATOR);
@@ -35,8 +36,8 @@ public class BasicInterceptor extends Controller {
 	}
 	
 	private static void addOriginHeader(String domain) {
-		response.headers.put(ACCESS_CONTROL_HEADER_NAME, new Header(ACCESS_CONTROL_HEADER_NAME, domain));
-		response.headers.put("Access-Control-Allow-Headers", new Header("Access-Control-Allow-Headers", "Authorization"));
+		response.headers.put(ACCESS_CONTROL_ALLOW_ORIGIN, new Header(ACCESS_CONTROL_ALLOW_ORIGIN, domain));
+		response.headers.put(ACCESS_CONTROL_ALLOW_HEADERS, new Header(ACCESS_CONTROL_ALLOW_HEADERS, "Authorization"));
 	}
 	
 }

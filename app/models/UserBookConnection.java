@@ -25,6 +25,6 @@ public class UserBookConnection extends BasicModel {
 	public ConnectionType type;
 
 	public enum ConnectionType {
-		READ, READING, PLANNING_TO_READ
+		READ, PLANNING_TO_READ
 	}
 }

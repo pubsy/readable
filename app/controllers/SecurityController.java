@@ -11,7 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Util;
 import play.mvc.Http.Header;
 
-public class SecurityController extends BasicInterceptor {
+public class SecurityController extends OriginHeaderFilter {
 
 	@Before
 	public static void checkAuthentication(){

@@ -27,12 +27,7 @@ import controllers.hypercore.BasicController;
 @With(SecurityController.class)
 public class BooksController extends BasicController {
 
-	/*
-	 * Controller methods
-	 */
-
 	private static final String GOOGLE_BOOK = "https://www.googleapis.com/books/v1/volumes/";
-	//private static final String AUTHOR_SEARCH = "https://www.googleapis.com/books/v1/volumes?q=Kobzar+inauthor:Shevchenko";
 
 	public static void books(Integer page, Integer size) {
 	    BooksListResource booksListRes = new BooksListResource();

@@ -23,12 +23,12 @@ GET     /my-profile                             UsersController.myProfile
 POST    /register                               UsersController.createUser
 
 #CORS require OPTIONS method to be always available
-OPTIONS /                                       BasicInterceptor.options
-OPTIONS /{a}                                    BasicInterceptor.options
-OPTIONS /{a}/{b}                                BasicInterceptor.options
-OPTIONS /{a}/{b}/{c}                            BasicInterceptor.options
-OPTIONS /{a}/{b}/{c}/{d}                        BasicInterceptor.options
-OPTIONS /{a}/{b}/{c}/{d}/{e}                    BasicInterceptor.options
+OPTIONS /                                       OriginHeaderFilter.options
+OPTIONS /{a}                                    OriginHeaderFilter.options
+OPTIONS /{a}/{b}                                OriginHeaderFilter.options
+OPTIONS /{a}/{b}/{c}                            OriginHeaderFilter.options
+OPTIONS /{a}/{b}/{c}/{d}                        OriginHeaderFilter.options
+OPTIONS /{a}/{b}/{c}/{d}/{e}                    OriginHeaderFilter.options
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
