@@ -9,7 +9,7 @@ import hypermedia.core.Resource;
 public abstract class ReadableBasicResource
     implements Resource {
 
-    @Link(rel = "self")
+    @Link(rel = "self", title = "self")
     public String self;
 
     @Link(rel = "books navigation", title = "Books")
