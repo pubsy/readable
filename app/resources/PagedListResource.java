@@ -68,7 +68,7 @@ public abstract class PagedListResource<T extends ReadableBasicResource>
         if (size * (page + 1) < totalElements) {
             next = rootUrl + "/page/" + (page + 1) + "/size/" + size;
 
-            long maxPage = totalElements / size + (totalElements % size == 0 ? -1 : 1);
+            int maxPage = (int) (totalElements / size + (totalElements % size == 0 ? -1 : 1));
 
             last = rootUrl + "/page/" + maxPage + "/size/" + size;
         }
