@@ -8,6 +8,7 @@ import models.Book;
 import models.User;
 import models.UserBookConnection;
 import models.UserBookConnection.ConnectionType;
+import play.Logger;
 import play.libs.F;
 import play.libs.F.Promise;
 import play.libs.WS;
@@ -129,6 +130,7 @@ public class BooksController extends BasicController {
 	}
 
 	private static JsonElement getExternalResource(String externalUrl) {
+	    Logger.debug("Making an external call to %s", externalUrl);
 		F.Promise<WS.HttpResponse> f = WS.url(externalUrl).getAsync();
 		Promise<HttpResponse> promise = F.Promise.waitAny(f);
 
