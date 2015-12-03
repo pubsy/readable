@@ -68,7 +68,7 @@ public class BooksController extends BasicController {
 		removeExistingUserBookConnectionIfExists(type, user, book);
 		saveNewUserBookConnection(type, user, book);
 
-		ok();
+		book(externalId);
 	}
 
 	/*

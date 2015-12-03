@@ -27,6 +27,14 @@ public class SecurityController extends OriginHeaderFilter {
 		}
 	}
 	
+	public static void login(){
+		if(!isAuthenticated()){
+			unauthorized();
+		} else {
+			BooksController.books(null, null);
+		}
+	}
+	
 	@Util
 	public static User getAuthenticatedUser() {
 		return User.findByUserName(getAuthUserName());

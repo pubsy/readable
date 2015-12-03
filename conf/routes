@@ -30,6 +30,9 @@ OPTIONS /{a}/{b}/{c}                            OriginHeaderFilter.options
 OPTIONS /{a}/{b}/{c}/{d}                        OriginHeaderFilter.options
 OPTIONS /{a}/{b}/{c}/{d}/{e}                    OriginHeaderFilter.options
 
+# Workaround endpoint to show basic auth popup in the browsers 
+GET     /login                                  SecurityController.login
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
