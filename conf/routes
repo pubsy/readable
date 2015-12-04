@@ -7,6 +7,7 @@ GET     /app/                                   staticDir:/public/app
 GET     /app                                    staticFile:/public/app/index.html
 
 GET     /                                       BooksController.books
+GET     /best-books                             BooksController.bestBooks
 
 GET     /books/page/{page}/size/{size}          BooksController.books
 GET     /books/{externalId}                     BooksController.book
@@ -20,7 +21,7 @@ GET     /users/{id}                             UsersController.user
 
 GET     /my-profile                             UsersController.myProfile
 
-POST    /register                               UsersController.createUser
+POST    /register-me                               UsersController.createUser
 
 #CORS require OPTIONS method to be always available
 OPTIONS /                                       OriginHeaderFilter.options

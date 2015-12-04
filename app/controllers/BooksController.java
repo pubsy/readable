@@ -40,6 +40,17 @@ public class BooksController extends BasicController {
 	    
 		render(booksListRes);
 	}
+	
+	public static void bestBooks(Integer page, Integer size){
+	    BooksListResource booksListRes = new BooksListResource();
+	    booksListRes.withItems(getBestBooksList(page, size));
+	    booksListRes.withPage(page);
+	    booksListRes.withSize(size);
+	    booksListRes.withTotalElements(getTotalBooksCount());
+	    booksListRes.build();
+	    
+		render(booksListRes);
+	}
 
 	public static void book(String externalId) {
 		render(new BookResource(getBookByExternalId(externalId)));
@@ -103,6 +114,20 @@ public class BooksController extends BasicController {
 		return book;
 	}
 
+	private static List<BookResource> getBestBooksList(Integer page, Integer size) {
+		size = (size == null) ? 9 : size;
+		page = (page == null) ? 0 : page;
+
+		List<Book> books = Book.find("order by readers.size desc").fetch(page + 1, size);
+
+		List<BookResource> resources = new ArrayList<BookResource>();
+		for (Book book : books) {
+			resources.add(new BookResource(book));
+		}
+
+		return resources;
+	}
+	
 	private static List<BookResource> getBooksList(Integer page, Integer size) {
 		size = (size == null) ? 9 : size;
 		page = (page == null) ? 0 : page;

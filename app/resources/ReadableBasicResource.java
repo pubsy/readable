@@ -15,6 +15,9 @@ public abstract class ReadableBasicResource
     @Link(rel = "books navigation", title = "Books")
     public String books = "/";
 
+    @Link(rel = "best-books navigation", title = "Most Read")
+    public String bestBooks = "/best-books";
+    
     @Link(rel = "users navigation", title = "Users")
     public String users = "/users";
 
@@ -29,7 +32,7 @@ public abstract class ReadableBasicResource
         if (SecurityController.isAuthenticated()) {
             myProfile = "/my-profile";
         } else {
-            register = "/register";
+            register = "/register-me";
         }
     }
 
